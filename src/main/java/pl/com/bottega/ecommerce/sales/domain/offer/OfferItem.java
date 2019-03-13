@@ -19,16 +19,17 @@ import java.util.Objects;
 public class OfferItem {
 
     // product
-    private String productId;
-
-    private BigDecimal productPrice;
-
-    private String productName;
-
-    private Date productSnapshotDate;
-
-    private String productType;
-
+//    private String productId;
+//
+//    private BigDecimal productPrice;
+//
+//    private String productName;
+//
+//    private Date productSnapshotDate;
+//
+//    private String productType;
+	public Product product = null;
+	
     private int quantity;
 
     private BigDecimal totalCost;
@@ -40,19 +41,15 @@ public class OfferItem {
 
     private BigDecimal discount;
 
-    public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate, String productType,
+    public OfferItem(Product product,
             int quantity) {
-        this(productId, productPrice, productName, productSnapshotDate, productType, quantity, null, null);
+        this(product, quantity, null, null);
     }
 
-    public OfferItem(String productId, BigDecimal productPrice, String productName, Date productSnapshotDate, String productType,
+    public OfferItem(Product product,
             int quantity, BigDecimal discount, String discountCause) {
-        this.productId = productId;
-        this.productPrice = productPrice;
-        this.productName = productName;
-        this.productSnapshotDate = productSnapshotDate;
-        this.productType = productType;
 
+    	this.product = product;
         this.quantity = quantity;
         this.discount = discount;
         this.discountCause = discountCause;
@@ -62,29 +59,29 @@ public class OfferItem {
             discountValue = discountValue.subtract(discount);
         }
 
-        this.totalCost = productPrice.multiply(new BigDecimal(quantity))
+        this.totalCost = product.getProductPrice().multiply(new BigDecimal(quantity))
                                      .subtract(discountValue);
     }
 
-    public String getProductId() {
-        return productId;
-    }
-
-    public BigDecimal getProductPrice() {
-        return productPrice;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public Date getProductSnapshotDate() {
-        return productSnapshotDate;
-    }
-
-    public String getProductType() {
-        return productType;
-    }
+//    public String getProductId() {
+//        return productId;
+//    }
+//
+//    public BigDecimal getProductPrice() {
+//        return productPrice;
+//    }
+//
+//    public String getProductName() {
+//        return productName;
+//    }
+//
+//    public Date getProductSnapshotDate() {
+//        return productSnapshotDate;
+//    }
+//
+//    public String getProductType() {
+//        return productType;
+//    }
 
     public BigDecimal getTotalCost() {
         return totalCost;
@@ -108,7 +105,7 @@ public class OfferItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(currency, discount, discountCause, productId, productName, productPrice, productSnapshotDate, productType,
+        return Objects.hash(currency, discount, discountCause, product.getProductId(), product.getProductName(), product.getProductPrice(), product.getProductSnapshotDate(), product.getProductType(),
                 quantity, totalCost);
     }
 
@@ -127,11 +124,11 @@ public class OfferItem {
         return Objects.equals(currency, other.currency)
                && Objects.equals(discount, other.discount)
                && Objects.equals(discountCause, other.discountCause)
-               && Objects.equals(productId, other.productId)
-               && Objects.equals(productName, other.productName)
-               && Objects.equals(productPrice, other.productPrice)
-               && Objects.equals(productSnapshotDate, other.productSnapshotDate)
-               && Objects.equals(productType, other.productType)
+               && Objects.equals(product.getProductId(), other.product.getProductId())
+               && Objects.equals(product.getProductName(), other.product.getProductName())
+               && Objects.equals(product.getProductPrice(), other.product.getProductPrice())
+               && Objects.equals(product.getProductSnapshotDate(), other.product.getProductSnapshotDate())
+               && Objects.equals(product.getProductType(), other.product.getProductType())
                && quantity == other.quantity
                && Objects.equals(totalCost, other.totalCost);
     }
@@ -144,29 +141,29 @@ public class OfferItem {
      * @return
      */
     public boolean sameAs(OfferItem other, double delta) {
-        if (productPrice == null) {
-            if (other.productPrice != null) {
+        if (product.getProductPrice() == null) {
+            if (other.product.getProductPrice() != null) {
                 return false;
             }
-        } else if (!productPrice.equals(other.productPrice)) {
+        } else if (!product.getProductPrice().equals(other.product.getProductPrice())) {
             return false;
         }
-        if (productName == null) {
-            if (other.productName != null) {
+        if (product.getProductName() == null) {
+            if (other.product.getProductName() != null) {
                 return false;
             }
-        } else if (!productName.equals(other.productName)) {
+        } else if (!product.getProductName().equals(other.product.getProductName())) {
             return false;
         }
 
-        if (productId == null) {
-            if (other.productId != null) {
+        if (product.getProductId() == null) {
+            if (other.product.getProductId() != null) {
                 return false;
             }
-        } else if (!productId.equals(other.productId)) {
+        } else if (!product.getProductId().equals(other.product.getProductId())) {
             return false;
         }
-        if (productType != other.productType) {
+        if (product.getProductType() != other.product.getProductType()) {
             return false;
         }
 

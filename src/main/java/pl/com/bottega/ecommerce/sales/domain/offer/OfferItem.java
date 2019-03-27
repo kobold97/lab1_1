@@ -105,7 +105,7 @@ public class OfferItem {
 	 * @return
 	 */
 	public boolean sameAs(OfferItem other, double delta) {
-		if (product.getProductPrice() == null) {
+		if (product.getProductPrice().equals(null)) {
 			if (other.product.getProductPrice() != null) {
 				return false;
 			}
@@ -113,14 +113,14 @@ public class OfferItem {
 			return false;
 		}
 		if (product.getProductName() == null) {
-			if (other.product.getProductName() != null) {
+			if (!other.product.getProductName().equals(null)) {
 				return false;
 			}
 		} else if (!product.getProductName().equals(other.product.getProductName())) {
 			return false;
 		}
 
-		if (product.getProductId() == null) {
+		if (product.getProductId().equals(null)) {
 			if (other.product.getProductId() != null) {
 				return false;
 			}

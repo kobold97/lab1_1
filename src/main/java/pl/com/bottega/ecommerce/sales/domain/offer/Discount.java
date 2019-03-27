@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 public class Discount {
 
-//	public Money totalCost;
 	public Money discount;
 	public String discountCause;
 

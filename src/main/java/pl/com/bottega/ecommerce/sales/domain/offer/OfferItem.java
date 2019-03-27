@@ -20,40 +20,36 @@ public class OfferItem {
 
 	private Discount discount = null;
 	public Product product = null;
-    private Money totalCost;
-    private int quantity;
+	private Money totalCost;
+	private int quantity;
 
 	public OfferItem(Product product, int quantity) {
-		this(product, quantity, null, null);
+		this(product, quantity, null);
 	}
 
 	public OfferItem(Product product, int quantity, Discount discount) {
 
 		this.product = product;
-        this.quantity = quantity;
+		this.quantity = quantity;
 		this.discount = discount;
 
-        BigDecimal discountValue = new BigDecimal(0);
+		BigDecimal discountValue = new BigDecimal(0);
 		if (discount.discount.value != null) {
 			discountValue = discountValue.subtract(discount.discount.value);
 		}
-                                 .subtract(discountValue);
-        this.totalCost = new Money(product.getProductPrice()
-                                  .multiply(new BigDecimal(quantity))
-                                  .subtract(discountValue),
-        "PLN");
-        
-        this.totalCost.value = product.getProductPrice()
-                                       .multiply(new BigDecimal(quantity))
-                                       .subtract(discountValue);
+
+		this.totalCost = new Money(product.getProductPrice().multiply(new BigDecimal(quantity)).subtract(discountValue),
+				"PLN");
+
+		this.totalCost.value = product.getProductPrice().multiply(new BigDecimal(quantity)).subtract(discountValue);
 	}
 
 	public BigDecimal getTotalCost() {
-		return discount.totalCost.value;
+		return totalCost.value;
 	}
 
 	public String getTotalCostCurrency() {
-		return currency;
+		return totalCost.currency;
 	}
 
 	public BigDecimal getDiscount() {
@@ -65,14 +61,14 @@ public class OfferItem {
 	}
 
 	public int getQuantity() {
-		return discount.quantity;
+		return quantity;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(currency, discount, discount.discountCause, product.getProductId(),
+		return Objects.hash(totalCost.currency, discount, discount.discountCause, product.getProductId(),
 				product.getProductName(), product.getProductPrice(), product.getProductSnapshotDate(),
-				product.getProductType(), discount.quantity, discount.totalCost.value);
+				product.getProductType(), quantity, totalCost.value);
 	}
 
 	@Override
@@ -87,15 +83,14 @@ public class OfferItem {
 			return false;
 		}
 		OfferItem other = (OfferItem) obj;
-		return Objects.equals(currency, other.currency) && Objects.equals(discount, other.discount)
+		return Objects.equals(totalCost.currency, other.totalCost.currency) && Objects.equals(discount, other.discount)
 				&& Objects.equals(discount.discountCause, other.discount.discountCause)
 				&& Objects.equals(product.getProductId(), other.product.getProductId())
 				&& Objects.equals(product.getProductName(), other.product.getProductName())
 				&& Objects.equals(product.getProductPrice(), other.product.getProductPrice())
 				&& Objects.equals(product.getProductSnapshotDate(), other.product.getProductSnapshotDate())
 				&& Objects.equals(product.getProductType(), other.product.getProductType())
-				&& discount.quantity == other.discount.quantity
-				&& Objects.equals(discount.totalCost.value, other.discount.totalCost.value);
+				&& quantity == other.quantity && Objects.equals(totalCost.value, other.totalCost.value);
 	}
 
 	/**
@@ -131,18 +126,18 @@ public class OfferItem {
 			return false;
 		}
 
-		if (discount.quantity != other.discount.quantity) {
+		if (quantity != other.quantity) {
 			return false;
 		}
 
 		BigDecimal max;
 		BigDecimal min;
-		if (discount.totalCost.value.compareTo(other.discount.totalCost.value) > 0) {
-			max = discount.totalCost.value;
-			min = other.discount.totalCost.value;
+		if (totalCost.value.compareTo(other.totalCost.value) > 0) {
+			max = totalCost.value;
+			min = other.totalCost.value;
 		} else {
-			max = other.discount.totalCost.value;
-			min = discount.totalCost.value;
+			max = other.totalCost.value;
+			min = totalCost.value;
 		}
 
 		BigDecimal difference = max.subtract(min);

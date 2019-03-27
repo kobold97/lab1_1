@@ -4,22 +4,12 @@ import java.math.BigDecimal;
 
 public class Discount {
 
-	public Money totalCost;
-	public int quantity;
+//	public Money totalCost;
 	public Money discount;
 	public String discountCause;
 
-	public Discount(BigDecimal productPrice, BigDecimal discount, int quantity, String discountCause) {
-		this.quantity = quantity;
+	public Discount(BigDecimal discount, String discountCause, String currency) {
 		this.discount = new Money(discount, "PLN");
 		this.discountCause = discountCause;
-
-		BigDecimal discountValue = new BigDecimal(0);
-		if (discount != null) {
-			discountValue = discountValue.subtract(discount);
-		}
-
-		this.totalCost = new Money(productPrice.multiply(new BigDecimal(quantity)).subtract(discountValue), "PLN");
-
 	}
 }

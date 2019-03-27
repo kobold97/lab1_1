@@ -18,65 +18,35 @@ import java.util.Objects;
 
 public class OfferItem {
 
-	// product
-//    private String productId;
-//
-//    private BigDecimal productPrice;
-//
-//    private String productName;
-//
-//    private Date productSnapshotDate;
-//
-//    private String productType;
 	private Discount discount = null;
 	public Product product = null;
-
-//    private int quantity;
-
-	private String currency;
-
-	// discount
-
-//    private BigDecimal discount;
+    private Money totalCost;
+    private int quantity;
 
 	public OfferItem(Product product, int quantity) {
 		this(product, quantity, null, null);
 	}
 
-	public OfferItem(Product product, int quantity, BigDecimal disc, String discountCause) {
+	public OfferItem(Product product, int quantity, Discount discount) {
 
 		this.product = product;
-//        this.quantity = quantity;
-		this.discount = new Discount(product.getProductPrice(), disc, quantity, discountCause);
+        this.quantity = quantity;
+		this.discount = discount;
 
-//        BigDecimal discountValue = new BigDecimal(0);
-//        if (discount != null) {
-//            discountValue = discountValue.subtract(discount);
-//        }
-//
-//        this.totalCost = product.getProductPrice().multiply(new BigDecimal(quantity))
-//                                     .subtract(discountValue);
+        BigDecimal discountValue = new BigDecimal(0);
+		if (discount.discount.value != null) {
+			discountValue = discountValue.subtract(discount.discount.value);
+		}
+                                 .subtract(discountValue);
+        this.totalCost = new Money(product.getProductPrice()
+                                  .multiply(new BigDecimal(quantity))
+                                  .subtract(discountValue),
+        "PLN");
+        
+        this.totalCost.value = product.getProductPrice()
+                                       .multiply(new BigDecimal(quantity))
+                                       .subtract(discountValue);
 	}
-
-//    public String getProductId() {
-//        return productId;
-//    }
-//
-//    public BigDecimal getProductPrice() {
-//        return productPrice;
-//    }
-//
-//    public String getProductName() {
-//        return productName;
-//    }
-//
-//    public Date getProductSnapshotDate() {
-//        return productSnapshotDate;
-//    }
-//
-//    public String getProductType() {
-//        return productType;
-//    }
 
 	public BigDecimal getTotalCost() {
 		return discount.totalCost.value;
